@@ -8,13 +8,13 @@ let readline () =
   with
     End_of_file -> None
 
-let rec main line =
-  match line with
-  | Some line -> (match Grammar.parse line with
-                  | Some cmd -> printf "%s\n" (Operation.to_string cmd)
-                  | None     -> printf "Error: malformed cmd \"%s\"\n" line);
-                 main (readline ())
-  | None      -> ()
+(* let rec main line =
+ *   match line with
+ *   | Some line -> (match Grammar.parse line with
+ *                   | Some cmd -> printf "%s\n" (Operation.to_string cmd)
+ *                   | None     -> printf "Error: malformed cmd \"%s\"\n" line);
+ *                  main (readline ())
+ *   | None      -> () *)
 
 let handle cin cout =
   while true do
@@ -47,7 +47,8 @@ let () =
   let port = 4040 in
   let sock = socket PF_INET SOCK_STREAM 0 in
   setsockopt sock SO_REUSEADDR true;
-  bind sock (ADDR_INET (inet_addr_of_string "0.0.0.0", port));
+  (* bind sock (ADDR_INET (inet_addr_of_string "0.0.0.0", port)); *)
+  bind sock (ADDR_INET (inet_addr_of_string "127.0.0.1", port));
   listen sock 5;
   printf "listening on %d\n" port;
   accept_loop sock
