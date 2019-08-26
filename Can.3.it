@@ -1,0 +1,48 @@
+.Dd $Mdocdate$
+.Dt CAN
+.Os
+.Sh Nome
+.Nm Can
+.Nd una libreria F* per gestire reti content-addressable.
+
+.Sh PROTOCOLLO
+
+.Bl -tag
+.It Vt Heartbeat
+Un messaggio mandato periodicamente da un peer a tutti i suoi
+vicini. Ogni heartbeat contiene la lista dei peer che circondano il
+mittente.
+.It Vt Join
+Un messaggio mandato da un nodo (A) che
+.Sy non appartiene
+alla rete da un nodo (B) della rete. Il nodo A genera un punto casuale
+nello spazio della CAN e effettua una
+.Vt Join .
+
+I casi ora sono due:
+
+.Bl -tag
+.It B possiede la zona contenente il punto generato da A
+In questo caso B può fare due cose:
+.Bl -bullet
+.It
+Se un suo vicino ha una zona
+.Sy più grande
+della sua, inoltrare nuovamente la
+.Vt Join .
+.It
+oppure splittare la propria zona, informando direttamente il mittente
+originario (che non è necessariamente A)
+.El
+
+.It B non possiede la suddetta zona
+In questo caso B (senza notificare A) inoltra la Join al nodo più vicino
+al punto richiesto.
+.El
+
+.It Vt Split
+Può essere ricevuto solo come risposta a un
+.Vt Join .
+Il nodo contattato ha allocato metà della sua zona per il nuovo nodo.
+
+.\" TODO: Get e Put
